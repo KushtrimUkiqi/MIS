@@ -47,14 +47,15 @@ class _PageState extends State<Page> {
         title: const Text('191291'),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.black,
         onPressed: () {
           _addSubject(context);
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
       body: Padding(
         padding:const EdgeInsets.only(top:10,left:7, right: 7),
-        child: ListView.builder(
+        child: ListView.separated(
           itemCount: subjects.length,
           itemBuilder: (context, index) {
             return Container(
@@ -70,7 +71,9 @@ class _PageState extends State<Page> {
                   ),
                 ],
               ),
-              child: ListTile(
+                padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+                height: 70,
+                child: ListTile(
                 textColor: Colors.white,
                 title: Text(subjects[index].name),
                 trailing: Row(
@@ -95,7 +98,14 @@ class _PageState extends State<Page> {
               )
             );
             },
-    ),
+          separatorBuilder: (BuildContext context, int index) {
+            // Add space between ListTiles using a Divider
+            return const Divider(
+              height: 7.0,
+              color: Colors.transparent, // Set the color of the space
+            );
+          },
+      ),
       ));
   }
 
@@ -108,11 +118,16 @@ class _PageState extends State<Page> {
 
         return AlertDialog(
           title: const Text('Додај предмет'),
-          content: TextField(
-            onChanged: (value) {
-              subjectName = value;
-            },
-            decoration: const InputDecoration(labelText: 'Име на предмет'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                onChanged: (value) {
+                  subjectName = value;
+                },
+                decoration: const InputDecoration(labelText: 'Име на предмет'),
+              ),
+            ],
           ),
           actions: [
             TextButton(
